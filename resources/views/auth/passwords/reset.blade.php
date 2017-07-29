@@ -16,7 +16,7 @@
       <form action="{{ route('password.request')}}" method="POST" role="form">
         {{csrf_field()}}
 
-
+        <input type="hidden" name="token" value="{{ $token }}">
         <div class="field">
           <label for="email" class="label">Email Address</label>
           <p class="control">
@@ -57,7 +57,7 @@
       </form>
       </div> <!-- end of card-content-->
     </div>
-    
+
   </div>
 
 </div>
