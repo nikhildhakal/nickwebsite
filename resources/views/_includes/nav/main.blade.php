@@ -22,7 +22,7 @@
         <a href="{{route('register')}}" class="nav-item is-tab">Sign Up</a>
       @else
         <button class="dropdown is-aligned-right nav-item is-tab" >
-          Hey {{ Auth::user()->name }}
+          Hey {{ Auth::user()->name }}  <span><i class="fa fa-caret-down m-l-5"></i></span>
           <ul class="dropdown-menu" style="overflow: visible;">
             <li><a href="#">
                   <span class="icon">
