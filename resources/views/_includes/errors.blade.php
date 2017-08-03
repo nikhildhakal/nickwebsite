@@ -1,3 +1,11 @@
+@if (Session::has('success'))
+
+<div class="notification is-success">
+  <strong>Success:</strong> {{ Session::get('success') }}
+</div>
+
+@endif
+
 @if (count($errors))
 
 
