@@ -10,11 +10,12 @@
     </div>
 
     <hr class="m-t-0">
+    @include('_includes.errors')
+  <form class="form" action="{{route('users.store')}}" method="post">
+      {{csrf_field()}}
     <div class="columns">
       <div class="column">
-        <form class="form" action="{{route('users.store')}}" method="post">
-          {{csrf_field()}}
-          <div class="field">
+        <div class="field">
             <label for="name" class="label">Name:</label>
             <p class="control">
               <input type="text" class="input" name="name" id="name" required>
@@ -35,12 +36,30 @@
              <b-checkbox name="auto_generate" class="m-t-15" v-model="auto_password">Auto Generate Password</b-checkbox>
            </p>
          </div>
+      </div><!--end of .column-->
 
-          <button class="button is-success">Create user</button>
-        </form>
+      <div class="column">
+        <label for="roles" class="label">Roles:</label>
+        <input type="hidden" name="roles_selected" :value="rolesSelected">
+
+        <b-checkbox-group v-model="rolesSelected">
+          @foreach ($roles as $role)
+            <div class="field">
+              <b-checkbox :custom-value="{{$role->id}}">{{$role->display_name}}</b-checkbox>
+            </div>
+          @endforeach
+        </b-checkbox-group>
+      </div>
+    </div><!--end of .columns-->
+
+    <div class="columns">
+      <div class="column">
+            <hr>
+            <button class="button is-success" style="width:250px;">Create New User</button>
       </div>
     </div>
 
+  </form>
   </div><!-- end of .flex-container-->
 
 
@@ -53,6 +72,7 @@
       el: '#app',
       data: {
         auto_password: true,
+        rolesSelected: {!! old('roles') ? old('roles') : '[]' !!}    //Array
       }
     });
   </script>

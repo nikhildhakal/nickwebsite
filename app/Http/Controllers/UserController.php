@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\Role;
 use Hash;
 
 class UserController extends Controller
@@ -27,7 +28,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('manage.users.create');
+        $roles = Role::all();
+        return view('manage.users.create')->withRoles($roles);
     }
 
     /**
@@ -38,32 +40,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, array(
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users',
-        ));
+      $this->validate($request, [
+     'name' => 'required|max:255',
+     'email' => 'required|email|unique:users'
+   ]);
 
-        if (!empty($request->password)) {
-            $password = trim($request->password);
-        }else {
-          //Set the manual password
-          $length = 10;
-          $keyspace = '0123456789abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ';
-          $str = '';
-          $max = mb_strlen($keyspace, '8bit') - 1;  //length of string, 8-bit encoding
-          for ($i=0; $i < $length; ++$i) {
-              $str.$keyspace[random_int(0 , $max)];
-          }
-          $password = $str;
-        }
+   if (!empty($request->password)) {
+     $password = trim($request->password);
+   } else {
+     # set the manual password
+     $length = 10;
+     $keyspace = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
+     $str = '';
+     $max = mb_strlen($keyspace, '8bit') - 1;
+     for ($i = 0; $i < $length; ++$i) {
+         $str .= $keyspace[random_int(0, $max)];
+     }
+     $password = $str;
+   }
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($password);
-        $user->save();
+   $user = new User();
+   $user->name = $request->name;
+   $user->email = $request->email;
+   $user->password = Hash::make($password);
+   $user->save();
 
-        return redirect()->route('users.show', $user->id);
+   if ($request->roles_selected) {
+     $user->syncRoles(explode(',', $request->roles_selected));
+   }
+
+   return redirect()->route('users.show', $user->id);
     }
 
     /**
@@ -74,7 +80,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::where('id' , $id)->with('roles')->first();
+
         return view('manage.users.show')->withUser($user);
     }
 
@@ -86,8 +93,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('manage.users.edit')->withUser($user);
+        $roles = Role::all();
+        $user = User::where('id' , $id)->with('roles')->first();
+        return view('manage.users.edit')->withUser($user)->withRoles($roles);
     }
 
     /**
@@ -107,7 +115,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
-        // dd($request->name);
+
         if ($request->password_options == 'auto')
         {
           $length = 10;
@@ -124,6 +132,8 @@ class UserController extends Controller
           $user->password = Hash::make($request->password);
         }
         $user->save();
+
+        $user->syncRoles(explode(',' , $request->roles)); //Many-to-many relationship
         return redirect()->route('users.show', $id);
     }
 

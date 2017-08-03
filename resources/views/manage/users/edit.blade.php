@@ -47,6 +47,25 @@
           </div>
         </div> <!-- end of .column -->
 
+        <div class="column">
+          <label for="role" class="label">Roles:</label>
+          <input type="hidden" name="roles" :value="rolesSelected">
+
+
+              <div class="media-content">
+                <div class="content">
+                  <b-checkbox-group v-model="rolesSelected">
+                    @foreach ($roles as $role)
+                      <div class="field">
+                        <b-checkbox :custom-value="{{$role->id}}">{{$role->display_name}} <em>({{$role->description}})</em></b-checkbox>
+                      </div>
+                    @endforeach
+                  </ul>
+                </div>
+              </div>
+
+          
+        </div>
 
       </div>
       <div class="columns">
@@ -68,7 +87,7 @@
       el: '#app',
       data: {
         password_options: 'keep',
-
+        rolesSelected: {!! $user->roles->pluck('id') !!}
       }
     });
 
