@@ -14,14 +14,14 @@
       <span></span>
     </span>
     <div class="nav-right nav-menu" style="overflow: visible">
-      <a class="nav-item is-tab is-hidden-tablet is-active">Home</a>
-      <a class="nav-item is-tab is-hidden-tablet">About Us</a>
-      <a class="nav-item is-tab is-hidden-tablet">Contact</a>
+      <a href="{{route('home')}}" class="navbar-item is-tab is-hidden-tablet is-active">Home</a>
+      <a href="#" class="navbar-item is-tab is-hidden-tablet">About Us</a>
+      <a href="#" class="navbar-item is-tab is-hidden-tablet">Contact</a>
       @if (Auth::guest())
         <a href="{{route('login')}}" class="nav-item is-tab">Login</a>
         <a href="{{route('register')}}" class="nav-item is-tab">Sign Up</a>
       @else
-        <button class="dropdown is-aligned-right nav-item is-tab" >
+        <button class="dropdown is-aligned-right nav-item is-tab is-hoverable" >
           Hey {{ Auth::user()->name }}  <span><i class="fa fa-caret-down m-l-5"></i></span>
           <ul class="dropdown-menu" style="overflow: visible;">
             <li><a href="#">
