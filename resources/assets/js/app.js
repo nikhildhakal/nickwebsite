@@ -2,6 +2,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.Slug = require('slug');
+Slug.defaults.mode = "rfc3986";
+
 import Buefy from "buefy";
 
 Vue.use(Buefy);
@@ -10,9 +13,6 @@ Vue.use(Buefy);
 //   el: '#app',
 //   data: {}
 // });
+Vue.component('slugWidget', require('./components/slugWidget.vue'));
 
-$(document).ready(function(){
-  $('button.dropdown').hover(function(e){
-    $(this).toggleClass('is-open');
-  });
-});
+require('./manage.js');

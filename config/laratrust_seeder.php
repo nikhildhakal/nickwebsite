@@ -11,10 +11,16 @@ return [
             'users' => 'c,r,u,d',
             'profile' => 'r,u'
         ],
-        'business' => [
+        'editor' => [
             'profile' => 'r,u'
         ],
-        'student' => [
+        'author' => [
+            'profile' => 'r,u'
+        ],
+        'contributor' => [
+            'profile' => 'r,u'
+        ],
+        'subscriber' => [
             'profile' => 'r,u'
         ],
     ],

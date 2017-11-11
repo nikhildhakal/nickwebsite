@@ -33,6 +33,20 @@
         <div class="columns">
           <div class="column">
             <div class="field">
+              <label for="role" class="label">Type:</label>
+              <div class="select">
+                  <select name="role" id="role">
+                      <option value="3">Business</option>
+                      <option value="4">Student</option>
+                  </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <div class="field">
               <label for="password" class="label">Password</label>
               <p class="control">
                 <input class="input {{$errors->has('password') ? 'is-danger' : ''}}" type="password" name="password" id='password'>

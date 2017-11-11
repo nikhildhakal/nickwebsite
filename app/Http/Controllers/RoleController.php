@@ -38,11 +38,11 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-      $this->validate($request, array(
+      $this->validateWith([
         'display_name' => 'required|min:4|max:255',
         'name' => 'required|min:4|max:100|alpha_dash|unique:roles,name',
         'description' => 'sometimes|min:6|max:200',
-      ));
+      ]);
 
       $role = new Role();
       $role->display_name = $request->display_name;
@@ -96,10 +96,10 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, array(
+        $this->validateWith([
           'display_name' => 'required|min:4|max:255',
           'description' => 'sometimes|min:6|max:150',
-        ));
+        ]);
 
         $role = Role::findOrFail($id);
         $role->display_name = $request->display_name;

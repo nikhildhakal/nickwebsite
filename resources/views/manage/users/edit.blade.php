@@ -48,30 +48,20 @@
         </div> <!-- end of .column -->
 
         <div class="column">
-          <label for="role" class="label">Roles:</label>
-          <input type="hidden" name="roles" :value="rolesSelected">
+          <label for="roles" class="label">Roles:</label>
+          <input type="hidden" name="roles" :value="rolesSelected" />
 
-
-              <div class="media-content">
-                <div class="content">
-                  <b-checkbox-group v-model="rolesSelected">
-                    @foreach ($roles as $role)
-                      <div class="field">
-                        <b-checkbox :custom-value="{{$role->id}}">{{$role->display_name}} <em>({{$role->description}})</em></b-checkbox>
-                      </div>
-                    @endforeach
-                  </ul>
-                </div>
+            @foreach ($roles as $role)
+              <div class="field">
+                <b-checkbox v-model="rolesSelected" :native-value="{{$role->id}}">{{$role->display_name}}</b-checkbox>
               </div>
-
-          
+            @endforeach
         </div>
-
       </div>
       <div class="columns">
         <div class="column">
           <hr />
-          <button class="button is-success is-pulled-right" style="width: 300px;">Edit User</button>
+          <button class="button is-primary is-pulled-right" style="width: 250px;">Edit User</button>
         </div>
       </div>
     </form>

@@ -1,0 +1,5 @@
+/*********To add new component********/
+yarn add bulma --dev
+yarn run dev
+
+/***********************/
